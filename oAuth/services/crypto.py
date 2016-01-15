@@ -33,6 +33,11 @@ def are_same_hashes(_hash, salt, text):
 
     return _hash == md5.hexdigest()
 
+
+def generate_token():
+    return generate_salt()
+
+
 if __name__ == '__main__':
     salt = "VmtnALTBNfC8IpjJf6a07aBr6yY9cdMMerYziPabQN4lToAXC12alT4GedHyJpmoXl6RevfFxqvy8CTTbQjdhZTTeVGzti8niLN5mEfmNSCQfo4z3k09BMlcIuAeIwlf"
     _hash = "f1a97302c86f3512007b0b736e152b14"
