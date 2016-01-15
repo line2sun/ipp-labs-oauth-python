@@ -19,7 +19,7 @@ def users_register():
     email = request.args.get('email', '')
     password = request.args.get('password', '')
 
-    if not client or not email:
+    if not client or not email or not password:
         return jsonify({'code': 2})
 
     token, code = UserService.register(client=client,
@@ -37,11 +37,14 @@ def users_register():
 def user_login():
     client = request.args.get('app_id', '')
     email = request.args.get('email', '')
+    password = request.args.get('password', '')
 
-    if not email or not client:
+    if not email or not client or not password:
         return jsonify({'code': 2})
 
-    token, code = UserService.login(client=client, email=email)
+    token, code = UserService.login(client=client,
+                                    email=email,
+                                    password=password)
 
     if token is None:
         return jsonify({'code': code})
