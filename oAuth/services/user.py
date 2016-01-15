@@ -2,7 +2,7 @@ import datetime
 import mongoengine
 
 from oAuth.models import User, Client, Token
-from .crypto import hash, generate_token
+from .crypto import hash, generate_token, are_same_hashes
 
 
 def register(client, name, email, password):
@@ -37,13 +37,16 @@ def register(client, name, email, password):
     return token, 0
 
 
-def login(client, email):
+def login(client, email, password):
     """ Logs in an user.
     """
     try:
         client = Client.objects.get(id=client)
         db_user = User.objects.get(email=email)
     except mongoengine.DoesNotExist:
+        return None, 2
+
+    if not are_same_hashes(db_user.password, db_user.salt, password):
         return None, 2
 
     db_user.last_login = datetime.datetime.now()
